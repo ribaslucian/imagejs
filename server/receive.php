@@ -1,9 +1,12 @@
 <?php
 
 /**
- * Intercepta do envio e converte os valores BASE64 das edições
- * para sua origem que são as imagens editadas; armazena-as na
- * variável de ambiente referentes a arquivos de formulários: $_FILES
+ * Intercepta do envio e converte os valores Base64 das edições
+ * para sua origem que são as imagens editadas; logo em seguida,
+ * armazena-as na variável de ambiente $_FILES, que representa 
+ * os arquivos enviados.
+ * 
+ * @return void
  */
 function imageJsMiddleware() {
     foreach ($_POST['imagejs'] as $editionNumber => $editionBase64) {
@@ -15,11 +18,10 @@ function imageJsMiddleware() {
 // referenciamos o middleware do ImageJs.
 imageJsMiddleware();
 
-// percorresmos as edições efetuadas com o ImageJS.
-foreach ($_FILES['imagejs'] as $editionNumber => $image) {
-
-    // salvamos a edição em questão no diretório com o nome desejado.
-    file_put_contents("../assets/editions/imagejs_edition_$editionNumber.png", $image);
+// percorremos as edições efetuadas com o ImageJS.
+foreach ($_FILES['imagejs'] as $edition => $image) {
+    // salvamos a edição em questão no diretório e com o nome desejado.
+    file_put_contents("../assets/editions/imagejs_edition_$edition.png", $image);
 }
 
-echo 'Edições salvas';
+die('Edições salvas');
