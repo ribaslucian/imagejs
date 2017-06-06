@@ -21,7 +21,7 @@ imageJsMiddleware();
 // percorremos as edições efetuadas com o ImageJS.
 foreach ($_FILES['imagejs'] as $edition => $image) {
     // salvamos a edição em questão no diretório e com o nome desejado.
-    file_put_contents("../assets/editions/imagejs_edition_$edition.png", $image);
+    file_put_contents("../assets/editions/imagejs_$edition.png", $image);
 }
 
 die('Edições salvas');
