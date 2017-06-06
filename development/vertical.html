@@ -1,0 +1,463 @@
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+
+        <link rel="stylesheet" type="text/css" href="../assets/style.css"/>
+
+        <script type="text/javascript" src="../assets/jquery.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+        <style>
+            imagejs {
+                background-color: #333;
+                font-family: Verdana,Geneva,sans-serif;
+                font-size: 12px;
+            }
+
+            imagejs studio, modal {
+                display: table;
+            }
+
+            imagejs studio {
+                width: 100%;
+                height: 100%;
+            }
+
+            imagejs studio tools-primary {
+                width: 10% !important;
+            }
+
+            imagejs studio tools-secondary {
+                width: calc(5% - 1px) !important;
+                background-color: #222;
+            }
+
+            imagejs modal {
+                width: 60%;
+                height: 80%;
+                box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            }
+
+            imagejs modal[upload-web] {
+                height: 30%;
+                min-height: 150px;
+            }
+
+            imagejs edition {
+                width: 85% !important;
+                height: 100% !important;
+            }
+
+            imagejs edition container {
+                width: 90%;
+                height: 90%;
+            }
+
+            imagejs canvas {
+                width: 100%;
+                height: 100%;
+                /*background-image: url('../production/images/2.jpg');*/
+                background-position: center !important;
+                background-size: contain !important;
+                background-repeat: no-repeat !important;
+                /*border: 1px dashed #999;*/
+            }
+
+            imagejs edition img {
+                object-fit: cover !important;
+                max-width: 90% !important;
+                max-height: 90% !important;
+            }
+
+            imagejs tool {
+                display: block;
+                text-align: center;
+
+                cursor: pointer;
+                padding: 7px 10px;
+            }
+
+            imagejs divider {
+                display: block;
+                margin: 7px 0px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            imagejs tool img {
+                width: 60px;
+            }
+
+            imagejs tools-primary .material-icons {
+                font-size: 28px;
+                color: #444;
+            }
+
+            imagejs tools-primary {
+                background-color: #fff;
+            }
+
+            imagejs tools-secondary tool {
+                color: #fff;
+            }
+
+            imagejs tools-primary tool:hover {
+                background-color: #eee;
+            }
+
+            imagejs tools-secondary tool:hover {
+                background-color: #333;
+            }
+
+            imagejs tools-primary tool.active {
+                background-color: #ddd;
+            }
+
+            imagejs tools-secondary tool.active {
+                background-color: #111;
+            }
+
+            imagejs modal tools-primary {
+                width: 10% !important;
+            }
+
+            imagejs modal content {
+                width: 90% !important;
+                background-color: white;
+            }
+
+            imagejs modal input {
+                width: 90%;
+                border: 0px;
+                border-bottom: 1px solid #999;
+                outline: none;
+                box-shadow: inset 0px 0px 0px 0px red;
+                /*text-align: center;*/
+
+                letter-spacing: 1px;
+                padding: 15px 20px;
+                font-size: 14px;
+                color: #333;
+            }
+
+            imagejs modal input:focus {
+                border-color: #333;
+            }
+
+            imagejs modal header {
+                font-size: 24px;
+                font-weight: bold;
+                display: block;
+                margin: 20px 0px;
+            }
+
+            imagejs tools divider-horizontal {
+                margin: 10px 0;
+            }
+
+            imagejs tools-secondary divider-horizontal {
+                background-color: #555;
+            }
+
+            imagejs #image-js-tool-filters .material-icons {
+                color: #f57c00;
+            }
+
+            imagejs #image-js-tool-filter1 .material-icons {
+                color: #F44336;
+            }
+
+            imagejs #image-js-tool-filter2 .material-icons {
+                color: #4CAF50;
+            }
+
+            imagejs #image-js-tool-filter3 .material-icons {
+                color: #2196F3;
+            }
+        </style>
+
+        <script>
+            $(document).ready(function () {
+
+                function log(data) {
+                    console.log(data);
+                }
+
+                // -- 
+
+                var $canvas = $('imagejs canvas');
+                var $container = $('imagejs edition container');
+                var $image = $('imagejs edition img');
+
+                // ocultação de elementos ao click
+                $('body').on('click', '[image-js-click-hide]', function () {
+                    $($(this).attr('image-js-click-hide')).hide();
+                });
+
+                // apresentação de elementos ao click
+                $('body').on('click', '[image-js-click-show]', function () {
+                    $($(this).attr('image-js-click-show')).fadeIn('medium');
+                });
+
+                // seleção de ferramentas
+                $('body').on('click', 'imagejs tool', function () {
+                    $('imagejs tool').removeClass('active');
+                    $(this).addClass('active');
+                });
+
+                // define a imagem no canvas de edicao
+                $image.attr('src', '../assets/images/4.jpg');
+                $image.on('load', function () {
+
+                    // obtemos as dimensoes da imagem
+                    var width = $(this).width();
+                    var height = $(this).height();
+                    
+                    // editamos o tamanho do canvas e definimos o background
+                    $container.height(height).width(width);
+                    $canvas.height(height).width(width);
+                    $canvas.css('background-image', "url('" + $(this).attr('src') + "')").fadeIn();
+                });
+
+                // mantemos o canvas dimensionado em função do
+                // tamanho da janela a cada redimensionamento
+                $(window).resize(function () {
+                    // obtemos as dimensoes da imagem
+                    var width = $image.width();
+                    var height = $image.height();
+                    
+                    // editamos o tamanho do canvas e definimos o background
+                    $canvas.hide();
+                    $container.height(height).width(width);
+                    $canvas.height(height).width(width);
+//                    log($image.width());
+                    $canvas.fadeIn();
+                });
+
+            });
+        </script>
+    </head>
+
+    <body>
+
+    <imagejs class="screen">
+
+        <studio class="center">
+
+            <tools-primary class="column">
+                <tools class="center-vertical">
+                    <tool title="Informações." image-js-click-hide="imagejs studio" image-js-click-show="imagejs modal[info]">
+                        <img id="image-js-logo" src="../assets/images/logo.png" />
+                    </tool>
+
+                    <divider-horizontal></divider-horizontal>
+
+                    <tool id="image-js-tool-croop" title="Ferramenta de recorte." image-js-click-hide="imagejs studio tools-secondary tools" image-js-click-show="tools[croop]">
+                        <i class="material-icons">&#xE3BE;</i>
+                    </tool>
+
+                    <tool id="image-js-tool-blur" title="Ferramenta de borragem circular.">
+                        <i class="material-icons">&#xE3A2;</i>
+                    </tool>
+
+                    <tool id="image-js-tool-brightness" title="Ferramenta de brilho.">
+                        <i class="material-icons">&#xE3AB;</i>
+                    </tool>
+
+                    <tool id="image-js-tool-contrast" title="Ferramenta de contraste.">
+                        <i class="material-icons">&#xE3F1;</i>
+                    </tool>
+
+                    <tool id="image-js-tool-rotate" title="Ferramenta de rotação para esquerda.">
+                        <i class="material-icons">&#xE86A;</i>
+                    </tool>
+
+                    <tool id="image-js-tool-text" title="Ferramenta textual.">
+                        <i class="material-icons">&#xE25E;</i>
+                    </tool>
+
+                    <divider-horizontal></divider-horizontal>
+
+                    <tool id="image-js-tool-filters" title="Aplicar filtros desenvolvidos pelo autor." image-js-click-hide="studio tools-secondary tools" image-js-click-show="tools[filters]">
+                        <i class="material-icons">&#xE3AF;</i>
+                    </tool>
+                </tools>
+            </tools-primary>
+
+            <tools-secondary class="column">
+                <tools start class="center-vertical">
+                    <tool id="image-js-tool-upload-device" title="Enviar imagem do dispositivo.">
+                        <i class="material-icons">&#xE326;</i>
+                    </tool>
+
+                    <tool id="image-js-tool-upload-web" title="Enviar imagem da internet." image-js-click-hide="studio" image-js-click-show="modal[upload-web]">
+                        <i class="material-icons">&#xE80B;</i>
+                    </tool>
+
+                    <br/>
+
+                    <tool title="Cancelar edição.">
+                        <i class="material-icons">&#xE5CD;</i>
+                    </tool>
+
+                    <tool title="Cancelar edição.">
+                        <i class="material-icons">&#xE5D5;</i>
+                    </tool>
+
+                    <tool title="Concluir edição.">
+                        <i class="material-icons text-green">&#xE5CA;</i>
+                    </tool>
+                </tools>
+
+                <tools filters hidden class="center-vertical">
+                    <tool title="Retornar ao menu principal." image-js-click-hide="studio tools-secondary tools" image-js-click-show="tools[start]">
+                        <i class="material-icons">&#xE5C4;</i>
+                    </tool>
+
+                    <br/>
+
+                    <tool id="image-js-tool-filter1" title="Filtro 1.">
+                        <i class="material-icons">&#xE3AF;</i>
+                    </tool>
+
+                    <tool id="image-js-tool-filter2" title="Filtro 2.">
+                        <i class="material-icons">&#xE3AF;</i>
+                    </tool>
+
+                    <tool id="image-js-tool-filter3" title="Filtro 3.">
+                        <i class="material-icons">&#xE3AF;</i>
+                    </tool>
+                </tools>
+
+                <tools croop hidden class="center-vertical">
+                    <tool title="Retornar ao menu principal." image-js-click-hide="studio tools-secondary tools" image-js-click-show="tools[start]">
+                        <i class="material-icons">&#xE5C4;</i>
+                    </tool>
+
+                    <br/>
+
+                    <tool title="Concluir edição.">
+                        <i class="material-icons text-green">&#xE5CA;</i>
+                    </tool>
+                </tools>
+
+                <tools blur hidden class="center-vertical">
+                    <tool title="Retornar ao menu principal." image-js-click-hide="studio tools-secondary tools" image-js-click-show="tools[start]">
+                        <i class="material-icons">&#xE5C4;</i>
+                    </tool>
+
+                    <br/>
+
+                    <tool title="Concluir edição.">
+                        <i class="material-icons text-green">&#xE5CA;</i>
+                    </tool>
+                </tools>
+            </tools-secondary>
+
+            <edition class="column">
+                <container class="center">
+                    <canvas hidden></canvas>
+                </container>
+                
+                <img hidden />
+            </edition>
+        </studio>
+
+        <modal upload-web hidden class="center">
+            <tools-primary class="column" style="width: 10%;">
+                <tools class="center">
+                    <tool image-js-click-hide="modal[upload-web]" image-js-click-show="studio">
+                        <i class="material-icons">&#xE5CD;</i>
+                    </tool>
+
+                    <tool image-js-click-hide="modal[upload-web]" image-js-click-show="studio">
+                        <i class="material-icons text-green">&#xE5CA;</i>
+                    </tool>
+                </tools>
+            </tools-primary>
+
+            <content class="column" style="width: 90%">
+                <input class="center" autofocus placeholder="Informe aqui o endereço web da imagem" />
+            </content>
+        </modal>
+
+        <modal info hidden class="center">
+            <tools-primary class="column">
+                <tools class="center">
+                    <tool image-js-click-hide="modal[info]" image-js-click-show="studio">
+                        <i class="material-icons">&#xE5CD;</i>
+                    </tool>
+                </tools>
+            </tools-primary>
+
+            <content class="column">
+                <div style="height: 50%;">
+                    <div class="column" style="width: 100%;">
+                        <div class="center text-center">
+                            <header>
+                                Desenvolvimento
+                            </header>
+
+                            Lucian Rossoni Ribas
+
+                            <div class="text-blue">
+                                ribas.lucian@gmail.com
+                            </div>
+
+                            <div>
+                                <a href="https://www.facebook.com/lucian.ribas" target="blank">
+                                    Facebook
+                                </a>
+                            </div>
+
+                            <br/>
+
+                            <i>
+                                Apresentado como T.C.C no curso de Tecnologia em Sistemas para Internet
+                                na Universidade Tecnologica Federal do Paraná, campús Guarapuava.
+                            </i>
+
+                            <div>
+                                <br/>
+                                Contribua
+                                <a href="https://github.com/ribaslucian/imagejs" target="blank">
+                                    https://github.com/ribaslucian/imagejs
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <divider-horizontal></divider-horizontal>
+
+                <div style="height: 50%;">
+                    <div class="column">
+                        <img src="../production/images/logo.png" width="150px" class="center" />
+                    </div>
+
+                    <div class="column">
+                        <div class="center-vertical no-whitespace">
+                            <header>
+                                Contribuíção Visual
+                            </header>
+
+                            Darlan Lara
+
+                            <div class="text-blue">
+                                darlan@email.com
+                            </div>
+
+                            <div>
+                                <a href="https://www.facebook.com/dla140?fref=ts" target="blank">
+                                    Facebook
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </content>
+        </modal>
+    </imagejs>
+
+</body>
+</html>

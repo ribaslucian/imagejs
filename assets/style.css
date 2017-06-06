@@ -1,0 +1,127 @@
+/*@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i");
+@import url("https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900");*/
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i");
+
+html, body {
+    /*font-family: 'Open Sans', sans-serif;*/
+    /*font-family: 'Lato', sans-serif;*/
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    /*font-size: 120%;*/
+    background: #f4f4f4;
+}
+
+img.circular {
+    border-radius: 50%;
+}
+
+.align-horizontal {
+    display: table;
+    margin: 0px auto;
+}
+
+.container {
+    width: 75%;
+    padding: 40px;
+}
+
+p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: grey;
+    text-align: justify;
+}
+
+.screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    overflow: auto;
+}
+
+/* centraliza na vertical e na horizontal */
+.center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.center-vertical {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 100%;
+}
+
+.center-horizontal {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.horizontal-block {
+    display: table;
+    margin: 0px auto;
+}
+
+.row {
+    width: 100%;
+    position: relative;
+}
+
+.column {
+    float: left;
+    width: 50%;
+    height: 100%;
+    position: relative;
+}
+
+.text-center {
+    text-align: center;
+}
+.text-blue {
+    color: #0059bc;
+}
+.text-green {
+    color: green;
+}
+
+.no-whitespace {
+    white-space: nowrap;
+}
+
+.white{ background: #fff; }
+.red { background: #D32F2F; }
+.blue { background: #006064; }
+.green { background: green; }
+.orange { background: orange; }
+.black { background: #333; }
+.grey { background: grey; }
+.grey-1 { background: #f4f4f4; }
+
+divider-horizontal {
+    display: block;
+    height: 1px;
+    background-color: #eee;
+}
+
+divider-vertical {
+    display: inline;
+    float: left;
+    width: 1px;
+    height: 43px;
+    margin: 0 10px;
+    background-color: #ddd;
+}
+p {
+    margin: 20px;
+    font-size: 16px;
+}
+
+[hidden] {
+    display: none;
+}

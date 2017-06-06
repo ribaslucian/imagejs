@@ -1,0 +1,127 @@
+<div>
+
+    <!--
+    LEMBRANÇAS
+    - Elementos que diponham em sua tag o atributo "name", representam 
+    modelos genéricos que se repetiram ao longo da estrutura.
+    -->
+
+    <!-- 
+    PRÉVIA
+    - Antes de analisar a estrutura HTML verifique o 
+    tópico Atributos e Elementos Especiais do ImageJS, na seção 5.x.
+        - Pode existir a possibilidade do sistema vinculante do estúdio possuir
+        atributos especiais com os mesmos nomes; por isso, todo atributo do 
+        ImageJs está prefixado com "imagejs-{nome_do_atributo}".
+    -->
+
+
+    <!-- 1 ESTRUTURA DE VINCULAÇÃO -->
+    <image-js>
+
+        <!-- 1.1 RECIPIENTE DE EDIÇÕES -->
+        <editions>
+
+            <!-- 1.1.1 REPRESENTANTE LÓGICO DE EDIÇÃO -->
+            <edition>
+
+                <!--
+                Para cada edição concluída, será incrementando +1 no valor 
+                numérico no subtexto "{count}" contido no atributo "alt" e 
+                "name" (da tag <img> e <input> respectivamente).
+                -->
+                <img src="{diretorio_temporario_da_imagem}" 
+                     alt="{count}º Edição efetuada com o estúdio ImageJS." />
+
+                <input name="imagejs_edition_{count}" 
+                       type="file" />
+            </edition>
+
+            <!-- 1.1.2 INICIALIZADOR -->
+            <edition name="new" title="Iniciar uma nova edição.">
+                <img src="{diretorio_online_do_icone_representativo}"
+                     alt="Ícone Representativo do estúdio ImageJS." />
+            </edition>
+        </editions>
+    </image-js>
+
+
+    <!-- 2 ESTÚDIO -->
+    <studio>
+
+        <!-- 
+        2.0.1 RECIPIENTE VINCULANTE PELO DISPOSITIVO
+        Input que receberá a imagem enviada através do dispositivo do usuário.
+        -->
+        <input type="file" imagejs-hidden />
+
+        <!-- 2.1 RECIPIENTE PRIMÁRIO  -->
+        <tools-primary>
+
+            <!-- 2.1.1 GRUPOS DE FERRAMENTAS PRIMÁRIAS -->
+            <tools name="primary">
+
+                <!-- 2.1.1.1 FERRAMENTA DE RECORTE -->
+                <tool name="crop" title="Ferramenta de recorte.">
+                    <i class="material-icons">&#xE3BE;</i>
+                </tool>
+
+                <!-- 2.0.2 OMISSÃO DE REDUNDÂNCIA – FERRAMENTAS -->
+            </tools>
+
+            <!-- 2.0.3 OMISSÃO DE REDUNDÂNCIA – GRUPOS DE FERRAMENTAS -->
+
+            <!-- 2.1.2 MENSAGENS -->
+            <info name="success" class="imagejs-bg-green">
+
+                <!-- 2.1.2.1 CENTRALIZADOR -->
+                <centralizer>
+                    ✓ &nbsp; Edição concluída com sucesso.
+                </centralizer>
+            </info>
+
+            <!-- 2.0.4 OMISSÃO DE REDUNDÂNCIA – MESANGENS E INFORMAÇÕES -->
+        </tools-primary>
+
+        <!-- 2.2 RECIPIENTE SECUNDÁRIO -->
+        <tools-secondary>
+            <!-- 2.0.5 OMISSÃO DE REDUNDÂNCIA - GRUPOS DE FERRAMENTAS SECUNDÁRIAS -->
+        </tools-secondary>
+
+        <!-- 2.3 RECIPIENTE DE EDIÇÃO -->
+        <editing>
+
+            <!-- 2.3.1 SAGUÃO DE EDIÇÃO -->
+            <container>
+                <!-- 2.0.6 CANVAS - O QUADRO DE EDIÇÃO -->
+                <canvas width="5000" height="5000"></canvas>
+
+                <!-- 2.3.1.2 SELETOR TRANSLÚCIDO -->
+                <selector></selector>
+            </container>
+
+            <!-- 2.0.7 IMAGEM OCULTA PROJETORA DE DIMENSÕES -->
+            <img />
+        </editing>
+    </studio>
+
+
+</div>
+
+<style>
+
+
+    centralizer {
+        margin-top: 50%;
+        margin-bottom: 50%;
+        margin-left: 50%;
+        margin-right: 50%;
+    }
+
+    studio editing img {
+        object-fit: cover !important;
+        max-width: 90% !important;
+        max-height: 90% !important;
+    }
+
+</style>
