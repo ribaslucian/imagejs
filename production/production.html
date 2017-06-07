@@ -7,6 +7,28 @@
 
         <script type="text/javascript" src="../assets/jquery.js"></script>
         <script type="text/javascript" src="../assets/image-js.js"></script>
+
+<!--        <script>
+            /**
+             * Método simplista para criar algotimos de manipulação do 
+             * canvas referente a imagem vinculada no editor no momento.
+             * 
+             * MY_CUSTOM_VALUE é uma variável representativa do valor 
+             * que se deseja inserir na cor do pixel em questão, altere isso.
+             * 
+             * @param {function} _callable: function(pixels)
+             * @return void
+             */
+            imageJS.write(function (pixels) {
+                // percorre-se todos os pixeis do Canvas
+                for (var i = 0; i < pixels.length; i += 4) {
+                    pixels[i] = MY_CUSTOM_VALUE;   // R| valor vermelho do pixel
+                    pixels[i+1] = MY_CUSTOM_VALUE; // G| valor verde do pixel
+                    pixels[i+2] = MY_CUSTOM_VALUE; // B| valor azul do pixel
+                }
+            });
+        </script>-->
+        
     </head>
 
     <body>
