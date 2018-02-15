@@ -1,4 +1,4 @@
-function log(data) {
+function l(data) {
     console.log(data);
 }
 
@@ -64,7 +64,7 @@ var ImageJs = function () {
         invoker: 'image-js',
         studio: 'studio',
         editions: 'editions'
-    };    
+    };
 
     /**
      * Contador do total de edições nomeante dos <input> que 
@@ -73,7 +73,7 @@ var ImageJs = function () {
      * @type int
      */
     this.count = 0;
-    
+
     /**
      * Repreenta a URL (Web ou local) que se obteu
      * a imagem que está sendo editada no momento.
@@ -213,7 +213,7 @@ var ImageJs = function () {
 
             // editamos o tamanho do container e do canvas respectivo a img oculta
             imageJs.$container.height(height).width(width);
-            imageJs.$canvas.attr('width', width).attr('height', height);
+            //imageJs.$canvas.attr('width', width).attr('height', height);
 
             // criamos o objeto da imagem a ser editada
             var image = new Image();
@@ -235,7 +235,7 @@ var ImageJs = function () {
                         0, 0,
                         // largura e altura do sub-retângulo de recorte
                         imageJs.canvas.width, imageJs.canvas.height
-                        );
+                    );
 
                 imageJs.$canvas.fadeIn();
             };
@@ -253,13 +253,82 @@ var ImageJs = function () {
     };
 
     /**
-     * @tool
-     * 
-     * Oculta o estúdio da tela.
+     * @util
+     * Resizable plugin
+     * resizable('.resizable')
      */
-    this.close = function () {
-        $(this.tags.studio).fadeOut('fast');
-    };
+    this.resizable = function (resizable_id) {
+        var resize = $(resizable_id);
+        var sy = 0, sx = 0, clicked = 0, ws = 0, hs = 0;
+
+        $('square', resize).mousedown(function () {
+            clicked = true;
+        });
+
+        $(window).mouseup(function () {
+            clicked = sy = sx = 0;
+        });
+
+        $(window).mousemove(function (event) {
+            if (clicked) {
+                if (sy == 0) {
+                    sy = event.clientY;
+                    sx = event.clientX;
+                    ws = resize.outerWidth();
+                    hs = resize.outerHeight();
+                }
+
+                resize.outerWidth(ws + event.clientX - sx).outerHeight(hs + event.clientY - sy);
+            }
+        });
+    }
+    ;
+
+    /**
+     * @util
+     * Draggable plugin
+     * draggable('.draggable')
+     */
+    this.draggable = function (draggable_id) {
+        var offset, sy = 0, clicked = 0, sx = 0;
+
+        $(draggable_id).mousedown(function (event) {
+            if ($(event.toElement).is(draggable_id))
+                clicked = true;
+        });
+
+        $(window).mouseup(function () {
+            if (clicked)
+                clicked = sy = sx = 0;
+        });
+
+        $(window).mousemove(function (event) {
+            if (clicked) {
+                if (sy == 0) {
+                    sy = event.clientY;
+                    sx = event.clientX;
+                    offset = $(draggable_id).offset();
+                }
+
+                $(draggable_id).offset({
+                    left: offset.left + event.clientX - sx,
+                    top: offset.top + event.clientY - sy
+                });
+            }
+        });
+    }
+
+    this.translucentReset = function () {
+        $('studio translucent')
+                .fadeOut({
+                    done: function () {
+                        $(this).css('width', '50%')
+                                .css('height', '50%')
+                                .css('top', '0')
+                                .css('left', '0');
+                    }
+                })
+    }
 
     /**
      * @util
@@ -344,17 +413,17 @@ var ImageJs = function () {
             imageJs.context.putImageData(data, 0, 0);
         }
     }
-    
+
     /**
-    * Método simplista para criar algotimos de manipulação do 
-    * canvas referente a imagem vinculada no editor no momento.
-    * 
-    * MY_CUSTOM_VALUE é uma variável representativa do valor 
-    * que se deseja inserir na cor do pixel em questão, altere isso.
-    * 
-    * @param {function} pixels: function(pixels)
-    * @return void
-    */
+     * Método simplista para criar algotimos de manipulação do 
+     * canvas referente a imagem vinculada no editor no momento.
+     * 
+     * MY_CUSTOM_VALUE é uma variável representativa do valor 
+     * que se deseja inserir na cor do pixel em questão, altere isso.
+     * 
+     * @param {function} pixels: function(pixels)
+     * @return void
+     */
 //            imageJS.write(function (pixels) {
 //                // percorre-se todos os pixeis do Canvas
 //                for (var i = 0; i < pixels.length; i += 4) {
@@ -379,6 +448,15 @@ var ImageJs = function () {
         _callable(image.data);
         imageJs.data.set(image);
     }
+
+    /**
+     * @tool
+     * 
+     * Oculta o estúdio da tela.
+     */
+    this.close = function () {
+        $(this.tags.studio).fadeOut('fast');
+    };
 
     /**
      * @tool
@@ -432,7 +510,7 @@ var ImageJs = function () {
         this.canvas.toBlob(function (blob) {
             $('#file').val(URL.createObjectURL(blob));
             log('ok');
-            
+
             $('img', edition).attr('src', URL.createObjectURL(blob));
 
             // escrevemos o valor base64 da imagem no <input>
@@ -447,6 +525,43 @@ var ImageJs = function () {
             // exibimos a mensangem de sucesso da edição
             imageJs.message('success');
         });
+    };
+    
+    
+
+    /**
+     * @tool
+     * 
+     * Método de manipulação lógica do canvas 
+     * para compor a Ferramenta de Recorte.
+     */
+    this.crop = function () {
+
+        var translucent = $('studio translucent');
+
+        var translucent_offset = translucent.offset();
+        var canvas_offset = this.$canvas.offset();
+        
+        l(this.$canvas.width());
+        l(this.$canvas.height());
+
+//        l(canvas_offset);
+//        l(translucent_offset);
+
+//        var offset = {
+//            left: translucent_offset.left - (canvas_offset.left + 1),
+//            top: translucent_offset.top - canvas_offset.top
+//        };
+        
+//        var imageData = this.context.getImageData(
+//            offset.left,
+//            offset.top,
+//            translucent.width(), translucent.height()
+//        );
+//
+//        this.data.set(imageData);
+//
+//        l('ok');
     };
 
     /**
@@ -491,7 +606,7 @@ var ImageJs = function () {
      * tamanho da janela a cada redimensionamento,
      * baseando-se na imagem oculta dentro de <editing>.
      */
-    this.resizable = function () {
+    this.responsive = function () {
         $(window).resize(function () {
             // obtemos as dimensoes da imagem
             var width = imageJs.$image.width();
@@ -502,29 +617,6 @@ var ImageJs = function () {
             imageJs.$canvas.height(height).width(width);
             imageJs.$canvas.fadeIn();
         });
-    };
-
-    /**
-     * @tool
-     * 
-     * Método de manipulação lógica do canvas 
-     * para compor a Ferramenta de Recorte.
-     */
-    this.crop = function () {
-        this.context.drawImage(
-                this.$image.get(0),
-                // coordenada X e Y do canvas que o resultado
-                // do recorte será posicionado no canvas
-                0, 0,
-                // largura e altura do imagem
-                // resultado do recorte dentro do canvas
-                this.$canvas.width(), this.$canvas.height(),
-                // coordenadas X e Y iniciais do 
-                // sub-retângelo de recorte da imagem
-                100, 100,
-                // largura e altura do sub-retângulo de recorte
-                200, 200
-                );
     };
 
     /**
@@ -684,29 +776,63 @@ var ImageJs = function () {
      * com as edições e a interface do estúdio.
      */
     $(document).ready(function () {
-        // iniciamos os recursos básicos da plataforma
+        // start basic features
         imageJs.writeDOMComponents();
 
-//        imageJs.edit('../assets/images/example 1.jpg');
+        imageJs.edit('../assets/images/example 2.jpg');
 //        imageJs.edit('http://www.themes-ilgelo.com/mani/demo-travel/wp-content/uploads/2015/03/bridge-900x480.jpg');
 //        imageJs.edit('http://orig04.deviantart.net/3b54/f/2015/193/4/0/banner_twitch_kuroneko_by_aizendesign-d911zg0.png');
 
-        // Evento que seleciona a ferramenta quando ela é clicada.
+        // behavior: select tool on click
         $('body').on('click', imageJs.tags.studio + ' tools-primary tool', function () {
             $(imageJs.tags.studio + ' tool').removeClass('active');
             $(this).addClass('active');
         });
 
-        // Evento padrão de click nos botões de voltar.
+        // behavior: click back button
         $('body').on('click', imageJs.tags.studio + ' tool[name=back]', function () {
-            // verificamos se não foi definido manualmente o onclick do botão
-            if (!$(this).attr('onclick'))
-                imageJs.tools('primary');
+            // check if onclick is not defined
+//            if (!$(this).attr('onclick'))
+            imageJs.tools('primary');
         });
+
+        imageJs.responsive();
+        imageJs.draggable('studio translucent');
+        imageJs.resizable('studio translucent');
+
+        // user onload function 
+        imageJs.onload();
     });
+
+    this.onload = function () {};
+
 };
 
 // instanciação manual do ImageJs para informar que desejamos trabalhar com 
 // seus recursos; estes por sua vez são controlados automaticamente pelo 
 // conteúdo instanciado do objeto.
 var imageJs = new ImageJs();
+
+
+
+
+
+
+
+///* Adding the script tag to the head as suggested before */
+//var head = document.getElementsByTagName('head')[0];
+//var script = document.createElement('script');
+//script.type = 'text/javascript';
+//script.src = "http://code.jquery.com/jquery-2.2.1.min.js";
+//
+//// Then bind the event to the callback function.
+//// There are several events for cross browser compatibility.
+//script.onreadystatechange = handler;
+//script.onload = handler;
+//
+//// Fire the loading
+//head.appendChild(script);
+//
+//function handler(){
+//   console.log('jquery added :)');
+//}

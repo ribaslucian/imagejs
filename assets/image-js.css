@@ -1,12 +1,16 @@
+/* plugins */
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
+/** 
+ * structure
+ */
 image-js {
     display: block;
     margin: 10px;
 }
 
 image-js, studio {
-    /* desabilitando selecao */
+    /* disable selection */
     -webkit-touch-callout:none; 
     -webkit-user-select:none; 
     -khtml-user-select:none; 
@@ -14,7 +18,7 @@ image-js, studio {
     -ms-user-select:none; 
     user-select:none;
 
-    /* desabilitando arrastar */
+    /* disable drag */
     -webkit-user-drag: none;
     -khtml-user-drag: none;
     -moz-user-drag: none;
@@ -26,117 +30,118 @@ studio {
     z-index: 100000;
     background-color: #333;
     overflow: auto;
-
-    /*full screen*/
     position: fixed;
     top: 0px;
     left: 0px;
-    width: 100%;
-    height: 100%;
 }
 
-/**
- * Elementos que serão totalmente
- * centralizados em função dos seus recipientes.
- */
+/* center elements */
 studio info,
 studio info text,
 studio tools,
-studio container,
-studio selector {
+studio container {
     left: 50%;
     top: 50%;
     position: absolute;
     transform: translate(-50%, -50%);
 }
 
-/**
- * Elementos que devem se comportar como colunas.
- */
+/* hidden elements */
+image-js edition input,
+/*studio,*/
+studio editing img,
+studio tools-primary tools,
+studio canvas,
+studio tools-secondary tools,
+studio tools-primary info,
+studio translucent,
+studio [name="editing"] {
+    display: none;
+}
+
+
+/*full height elements*/
+image-js editions img,
+studio,
+studio tools-primary info,
+studio tools-primary,
+studio tools-secondary,
+studio canvas,
+studio editing
+{
+    height: 100% !important;
+}
+
+
+/*full width elements*/
+studio,
+studio canvas,
+studio tools-primary info,
+studio editing,
+studio tools-primary,
+studio tools-secondary {
+    width: 100% !important;
+}
+
 studio tools-primary,
 studio tools-secondary,
 studio editing {
     position: relative;
     float: left;
     width: 50%;
-    height: 100%;
-}
-
-/**
- * Elementos que devem iniciar ocultos.
- */
-image-js edition input,
-studio,
-studio editing img,
-studio tools-primary tools,
-studio canvas,
-studio selector,
-studio tools-secondary tools,
-studio tools-primary info,
-studio [name="editing"] {
-    display: none;
-}
-
-studio info {
-    font-family: "Arial" !important;
-    font-size: 12px;
-    color: grey;
-}
-
-studio tools-primary info {
-    height: 100%;
-    width: 100%;
-    background-color: white;
-    font-weight: bold;
-    color: #333;
-}
-
-studio a:link,
-studio a:visited {
-    color: white;
-    text-decoration: none;
-}
-
-studio tools-primary {
-    width: 100% !important;
-    height: 8% !important;
-    background-color: white;
-    color: #333;
-}
-
-studio tools-secondary {
-    width: 100% !important;
-    height: calc(8% - 1px) !important;
-    color: #f9f9f9;
-    border-bottom: 1px dashed #666;
-}
-
-studio editing {
-    width: 100% !important;
-    height: 84%!important;
 }
 
 studio container {
     width: 90%;
     height: 90%;
+    overflow: hidden !important;
+    display: block;
+}
+
+studio editing {
+    height: 84% !important;
 }
 
 studio editing .material-icons {
     font-size: 900%;
 }
 
-studio canvas {
-    width: 100%;
-    height: 100%;
-    background-position: center !important;
-    background-size: contain !important;
-    background-repeat: no-repeat !important;
-}
-
 studio editing img {
     object-fit: cover !important;
     max-width: 90% !important;
     max-height: 90% !important;
+}
+/* end structure */
+
+/** 
+ * tools and messages 
+ */
+studio info {
+    font-family: "Arial" !important;
+    font-size: 12px;
+    color: grey;
+}
+
+/* background white elements */
+studio tools-primary info,
+studio tools-primary {
+    background-color: white;
+}
+
+studio tools-primary info {
+    font-weight: bold;
+    color: #333;
+}
+
+studio tools-primary {
+    height: 8% !important;
+    color: #333;
+}
+
+studio tools-secondary {
+    height: calc(8% - 1px) !important;
+    color: #f9f9f9;
+    border-bottom: 1px dashed #666;
 }
 
 studio tools {
@@ -165,12 +170,13 @@ studio tool[name=filters] {
     margin: 0 10px;
 }
 
-studio selector {
-    width: 50%;
-    height: 50%;
-    opacity: 0.5;
-    cursor: move;
-    background-color: black;
+/** 
+ * basic styles 
+ */
+studio a:link,
+studio a:visited {
+    color: white;
+    text-decoration: none;
 }
 
 image-js edition {
@@ -190,21 +196,50 @@ image-js edition[name=new] {
     cursor: pointer;
 }
 
+image-js editions {
+    white-space: nowrap;
+}
+
 studio info input {
     padding: 6px 15px;
     border-top: 1px solid;
     width: 280px !important;
 }
 
-image-js editions {
-    white-space: nowrap;
+/**
+ * plugin translucent draggable and resizable
+ */
+
+studio translucent {
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 50%;
+    padding: 10px;
+    cursor: move;
+    position: absolute;
+    
+    border: 1px dashed #000;
+    box-shadow: 0 0 0 3000px rgba(0,0,0,0.7);
 }
 
-image-js editions img {
-    height: 100%;
+studio translucent square {
+    padding: 4px;
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    cursor: nw-resize;
+    
+    background-color: #ffffff;
+    border: 2px solid #000;
 }
 
+/*end plugin translucent*/
 
+
+/** 
+ * colors
+ */
 studio info .material-icons {
     color: grey;
 }
@@ -240,4 +275,15 @@ studio info .material-icons {
 .imagejs-bg-green {
     background-color: #41920f;
     color: white;
+}
+/* end colors */
+
+/*fix bugs*/
+
+studio editing canvas {
+    margin-left: -1px !important;
+}
+
+studio container canvas {
+    margin-left: -1px !important;
 }

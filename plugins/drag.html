@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="../assets/jquery.js"></script>
+    </head>
+
+    <body>
+
+        <style>
+            html, body {
+                padding: 0px;
+                margin: 0px;
+            }
+
+            .drag {
+                border: 2px dashed black;
+                display: table;
+                padding: 20px;
+            }
+        </style>
+
+        <script>
+
+            $(document).ready(function () {
+                function l(str) {
+                    console.log(str);
+                }
+
+                var sy = 0, clicked = 0, sx = 0;
+                var drag = $('.drag');
+                var offset;
+
+                drag.mousedown(function () {
+                    clicked = true;
+                });
+
+                $(window).mouseup(function () {
+                    clicked = sy = sx = 0;
+                });
+
+                drag.mousemove(function (event) {
+                    if (clicked) {
+                        if (sy == 0) {
+                            sy = event.clientY;
+                            sx = event.clientX;
+                            offset = $(this).offset();
+                        }
+
+                        $(this).offset({
+                            top: offset.top + event.clientY - sy,
+                            left: offset.left + event.clientX - sx,
+                        });
+                    }
+                });
+            });
+
+        </script>
+
+        <div class="drag"></div>
+    </body>
+</html>

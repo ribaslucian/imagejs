@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Resize</title>
+
+        <script type="text/javascript" src="../assets/jquery.js"></script>
+        <script type="text/javascript" src="../plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+        <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
+
+        <style>
+            container {
+                display: table;
+                width: 500px;
+                height: 400px;
+                margin: 50px;
+                overflow: hidden;
+                /*background: rgba(3, 3, 54, 0.5);*/
+            }
+
+            imagejs-translucent-square {
+                border: 2px dashed #000;
+                padding: 20px;
+                display: table;
+                position: relative;
+                width: 200px;
+                height: 100px;
+                cursor: move;
+
+                -webkit-box-shadow: 0 0 0 50000px rgba(0,0,0,0.7);
+                box-shadow: 0 0 0 50000px rgba(0,0,0,0.7);
+            }
+
+            imagejs-translucent-square-top-left,
+            imagejs-translucent-square-top-right,
+            imagejs-translucent-square-bottom-left,
+            imagejs-translucent-square-bottom-right {
+                width: 8px;
+                height: 8px;
+                display: table;
+                position: absolute;
+
+                background-color: #ffffff;
+                border: 2px solid #000;
+            }
+
+            imagejs-translucent-square-top-right,
+            imagejs-translucent-square-bottom-left {
+                cursor: nesw-resize;
+            }
+
+            imagejs-translucent-square-bottom-right,
+            imagejs-translucent-square-top-left  {
+                cursor: nw-resize;
+            }
+
+            imagejs-translucent-square-top-left,
+            imagejs-translucent-square-top-right {
+                top: -6px;
+            }
+
+            imagejs-translucent-square-top-left,
+            imagejs-translucent-square-bottom-left {
+                left: -6px;
+            }
+
+            imagejs-translucent-square-top-right,
+            imagejs-translucent-square-bottom-right {
+                right: -6px;
+            }
+
+            imagejs-translucent-square-bottom-left,
+            imagejs-translucent-square-bottom-right {
+                bottom: -6px;
+            }
+
+            body {
+                background-image: url("../assets/images/example_4.jpg");
+            }
+        </style>
+
+        <script>
+            $(document).ready(function () {
+                $('imagejs-translucent-square').resizable({
+                    handles: {
+                        ne: 'imagejs-translucent-square-top-left',
+                        se: 'imagejs-translucent-square-top-right',
+                        sw: 'imagejs-translucent-square-bottom-left',
+                        nw: 'imagejs-translucent-square-bottom-right'
+                    }
+                }).draggable({
+                    containment: 'container'
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+
+    <container>
+        <imagejs-translucent-square>
+            <imagejs-translucent-square-top-left class="ui-resizable-nw"></imagejs-translucent-square-top-left>
+            <imagejs-translucent-square-top-right class="ui-resizable-ne"></imagejs-translucent-square-top-right>
+            <imagejs-translucent-square-bottom-left class="ui-resizable-sw"></imagejs-translucent-square-bottom-left>
+            <imagejs-translucent-square-bottom-right class="ui-resizable-se"></imagejs-translucent-square-bottom-right>
+        </imagejs-translucent-square>
+    </container>
+
+</body>
+</html>

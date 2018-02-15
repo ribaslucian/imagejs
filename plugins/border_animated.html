@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Resize</title>
+
+        <style>
+            .animationBorder {
+                display: block;
+                position: relative;
+                overflow: hidden;
+                margin: 12px;
+                width: 200px;
+                height: 200px;
+                color: black;
+                font-size: 20px;
+            }
+            .animationBorder:hover .background {
+                background-position: 100px 0;
+            }
+            .background, .content {
+                position: absolute;
+                bottom: 0;
+                top: 0;
+                left: 0;
+                right: 0;
+            }
+            .background {
+                transition: 1200ms;
+                background-color: black;
+                background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, #ffffff 10px, #ffffff 20px);
+                background-size: 30px;
+            }
+            .content {
+                transition: 200ms;
+                margin: 1px;
+                line-height: 200px;
+                text-align: center;
+                background-color: white;
+            }
+        </style>
+
+    </head>
+
+    <body>
+
+        <span class="animationBorder">
+            <div class="background"></div>
+            <div class="content">My post</div>
+        </span>
+
+    </body>
+</html>

@@ -3,14 +3,27 @@
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
 
-        <script type="text/javascript" src="../assets/jquery.js"></script>
-
         <link rel="stylesheet" type="text/css" href="../assets/image-js.css" />
 
+        <script type="text/javascript" src="../assets/jquery.js"></script>
         <script type="text/javascript" src="../assets/image-js.js"></script>
+
+        <!-- plugins:jcrop -->
+        <link rel="stylesheet" type="text/css" href="../plugins/jcrop/css/jquery.Jcrop.min.css" />
+        <script type="text/javascript" src="../plugins/jcrop/js/jquery.Jcrop.min.js"></script>
 
         <script>
             var IMAGEJS_ENVIROMENT = 'development';
+
+            imageJs.onload = function () {
+
+//                $('#viewport').Jcrop({
+//                    allowSelect: true,
+//                    allowMove: true,
+//                    allowResize: true,
+//                    aspectRatio: 0
+//                });
+            }
         </script>
     </head>
 
@@ -44,7 +57,7 @@
 
         <tools-primary>
             <tools name="primary">
-                <tool name="crop" title="Ferramenta de recorte." onclick="imageJs.tools('crop', true); $('studio translucent').fadeIn()">
+                <tool name="crop" title="Ferramenta de recorte." onclick="imageJs.crop()">
                     <i class="material-icons">&#xE3BE;</i>
                 </tool>
 
@@ -145,11 +158,11 @@
             </tools>
 
             <tools name="crop">
-                <tool name="back" title="Retornar ao menu principal." onclick="imageJs.translucentReset()">
+                <tool name="back" title="Retornar ao menu principal.">
                     <i class="material-icons">&#xE5C4;</i>
                 </tool>
 
-                <tool name="conclude" title="Concluir recorte." class="imagejs-color-green" onclick="imageJs.crop()">
+                <tool name="conclude" title="Concluir recorte." class="imagejs-color-green">
                     <i class="material-icons">&#xE5CA;</i>
                 </tool>
             </tools>
@@ -235,11 +248,8 @@
 
         <editing>
             <container>
-                <canvas width="3000" height="3000"></canvas>
-
-                <translucent>
-                    <square></square>
-                </translucent>
+                <canvas id="viewport" width="3000" height="3000"></canvas>
+                <selector></selector>
             </container>
 
             <img />

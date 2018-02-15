@@ -1,0 +1,144 @@
+<html>
+    <head>
+        <title>TODO supply a title</title>
+
+        <script type="text/javascript" src="../assets/jquery.js"></script>
+    </head>
+
+    <body>
+
+        <style>
+            translucent {
+                border: 2px dashed grey;
+                display: table;
+                padding: 10px;
+                position: absolute;
+                width: 100px;
+                height: 100px;
+                cursor: move;
+                -webkit-box-shadow: 0 0 0 50000px rgba(0,0,0,0.7);
+                box-shadow: 0 0 0 50000px rgba(0,0,0,0.7);
+            }
+
+            translucent square {
+                padding: 4px;
+                border: 2px solid black;
+                position: absolute;
+                bottom: -2px;
+                right: -2px;
+                cursor: nw-resize;
+            }
+
+            container {
+                width: 500px;
+                height: 500px;
+                margin: 50px;
+                background: #f2f2f2;
+                position: relative;
+                overflow: hidden;
+                display: block;
+            }
+        </style>
+
+        <script>
+
+            function l(str) {
+                console.log(str);
+            }
+
+            /**
+             * Resizable plugin
+             * resizable('.resizable', '.container')
+             */
+            function resizable(resizable_id, container_id) {
+                var resize = $(resizable_id), c = $(container_id), offset;
+                var container_offset, x, y, sy = 0, sx = 0, clicked = 0, ws = 0, hs = 0;
+
+                $('square', resize).mousedown(function () {
+                    clicked = true;
+                });
+
+                $(window).mouseup(function () {
+                    clicked = sy = sx = 0;
+                });
+
+                $(window).mousemove(function (event) {
+                    if (clicked) {
+                        if (sy == 0) {
+                            sy = event.clientY;
+                            sx = event.clientX;
+                            ws = resize.outerWidth();
+                            hs = resize.outerHeight();
+                            container_offset = c.offset();
+                            container_offset.right = container_offset.left + c.outerWidth();
+                            container_offset.bottom = container_offset.top + c.outerHeight();
+                        }
+
+                        offset = resize.offset();
+                        x = ws + event.clientX - sx;
+                        y = hs + event.clientY - sy;
+
+                        // bloquear redimensionamento fora do recipiente
+                        if (((x + offset.left) <= container_offset.right) // nao sair da direita do recipiente
+                                && ((y + offset.top) <= container_offset.bottom)) // nao ultrapassar a base do recipiente
+                            resize.outerWidth(x).outerHeight(y);
+                    }
+                });
+            }
+            ;
+
+            /**
+             * Draggable plugin
+             * draggable('.draggable', '.container')
+             */
+            function draggable(draggable_id, container_id) {
+                var c = $(container_id);
+                var offset, container_offset, x, y, sy = 0, clicked = 0, sx = 0;
+
+                $(draggable_id).mousedown(function (event) {
+                    if ($(event.toElement).is(draggable_id))
+                        clicked = true;
+                });
+
+                $(window).mouseup(function () {
+                    if (clicked)
+                        clicked = sy = sx = 0;
+                });
+
+                $(window).mousemove(function (event) {
+                    if (clicked) {
+                        if (sy == 0) {
+                            sy = event.clientY;
+                            sx = event.clientX;
+                            offset = $(draggable_id).offset();
+                            container_offset = c.offset();
+                            container_offset.right = container_offset.left + c.outerWidth();
+                            container_offset.bottom = container_offset.top + c.outerHeight();
+                        }
+
+                        x = offset.left + event.clientX - sx;
+                        y = offset.top + event.clientY - sy;
+
+                        if (!((y < container_offset.top) // nao sair do topo do recipiente
+                                || (x < container_offset.left) // nao sair da esquerda do recipiente
+                                || ((x + $(draggable_id).outerWidth()) > container_offset.right) // nao sair da direita do recipiente
+                                || ((y + $(draggable_id).outerWidth()) > container_offset.bottom))) // nao sair da base do recipiente
+                            $(draggable_id).offset({top: y, left: x});
+                    }
+                });
+            }
+
+            $(document).ready(function () {
+                resizable('translucent', 'container');
+                draggable('translucent', 'container');
+            });
+        </script>
+
+    <container>
+        <translucent>
+            <square></square>
+        </translucent>
+    </container>
+
+</body>
+</html>
